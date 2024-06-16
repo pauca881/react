@@ -1,47 +1,40 @@
-import { useState } from "react"
 
-export function TwitterFollowCard ( {formattedUserName, userName, name, initialIsFollowing}){
+import { useState } from 'react'
 
-const [isFollowing, setisFollowing]= useState(false)
+export function TwitterFollowCard ({ children, userName, initialIsFollowing }) {
+  const [isFollowing, setIsFollowing] = useState(initialIsFollowing)
 
+  console.log('[TwitterFollowCard] render with userName: ', userName)
 
+  const text = isFollowing ? 'Siguiendo' : 'Seguir'
+  const buttonClassName = isFollowing
+    ? 'tw-followCard-button is-following'
+    : 'tw-followCard-button'
 
+  const handleClick = () => {
+    setIsFollowing(!isFollowing)
+  }
 
-const imageSrc = 'https://unavatar.io/${username}'
-const text = isFollowing ? 'Siguiendo' : 'Seguir'
+  return (
+    <article className='tw-followCard'>
+      <header className='tw-followCard-header'>
+        <img
+          className='tw-followCard-avatar'
+          alt='El avatar del usuario'
+          src={`https://unavatar.io/${userName}`}
+        />
+        <div className='tw-followCard-info'>
+          <strong>{children}</strong>
+          <span className='tw-followCard-infoUserName'>@{userName}</span>
+        </div>
+      </header>
 
-const buttonClassName = isFollowing
-? 'tw-followCard-button is-following'
-: 'tw-followCard-button'
-
-const handleClick = () =>{
-
-setisFollowing(!isFollowing)
-
-}
-
-return(
-    <article className="pau-tw-followCard">
-        <header className="pau-tw-followCard-header">
-            <img src={imageSrc}/>
-            <strong>{userName}</strong>
-            <span>{name}</span>
-            <span>{formattedUserName}</span>
-
-        
-        </header>
-
-
-    <aside>
-        <button className="{buttonClassName} onClick={handleClick}">
-            Seguir
+      <aside>
+        <button className={buttonClassName} onClick={handleClick}>
+          <span className='tw-followCard-text'>{text}</span>
+          <span className='tw-followCard-stopFollow'>Dejar de seguir</span>
         </button>
-
-    </aside>
-
-
+      </aside>
     </article>
-
-
-
-)}
+  )
+}
